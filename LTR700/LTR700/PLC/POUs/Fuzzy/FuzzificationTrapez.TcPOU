@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.6">
+  <POU Name="FuzzificationTrapez" Id="{74510e2c-808d-4c51-995d-b31dd9a3ac2e}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION FuzzificationTrapez : REAL
+VAR_INPUT
+	x		:REAL;
+	trapez	:Trapez;
+END_VAR
+VAR
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[IF x <= trapez.A THEN
+	FuzzificationTrapez := 0;
+ELSIF trapez.A < x AND x <= trapez.B THEN
+	FuzzificationTrapez := (x-trapez.A)/(trapez.B-trapez.A);
+ELSIF trapez.B <= x AND x <= trapez.C THEN
+	FuzzificationTrapez := 1;
+ELSIF trapez.C < x AND x <= trapez.D THEN
+	FuzzificationTrapez := (trapez.D-x)/(trapez.D-trapez.C);
+ELSIF trapez.D < x THEN
+	FuzzificationTrapez := 0; 
+END_IF]]></ST>
+    </Implementation>
+    <LineIds Name="FuzzificationTrapez">
+      <LineId Id="27" Count="9" />
+      <LineId Id="7" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

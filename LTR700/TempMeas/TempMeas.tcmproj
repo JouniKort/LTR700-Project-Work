@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <ProjectGuid>{1989450e-1ad9-41b1-b796-efa2ae6c9671}</ProjectGuid>
+    <AssemblyName>TempMeas</AssemblyName>
+    <Name>TempMeas</Name>
+    <RootNamespace>TempMeas</RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Content Include="PI_30_Heater.svd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="PI_20_Heater.svd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="Fuzzy_20_Heater_Ref_45_50.svd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="Fuzzy_20_Heater_Ref_40.svd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="Scope YT Project.tcscope">
+      <SubType>Content</SubType>
+    </Content>
+  </ItemGroup>
+</Project>

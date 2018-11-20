@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.6">
+  <POU Name="fbU2B" Id="{4eeb43f3-14aa-44ea-8603-95d70b13c375}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK fbU2B
+VAR_INPUT
+	IN		:UINT;
+END_VAR
+VAR_OUTPUT
+	B1		:BOOL;
+	B2		:BOOL;
+	B3		:BOOL;
+	B4		:BOOL;
+	B5		:BOOL;
+END_VAR
+VAR
+	Index	:INT;
+	D_val	:UINT;
+	Rem		:UINT := 0;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[//Turning the digial input into five booleans
+//First 8 bits are always zeros so the first needed boolean value is at index 8 (zero based)
+D_val := IN;
+FOR Index := 0 TO 12 DO
+	Rem := D_val MOD 2;
+	D_val := (D_val-Rem) / 2;
+	IF Index = 8 THEN
+		B1 := UINT_TO_BOOL(Rem);
+	ELSIF Index = 9 THEN
+		B2 := UINT_TO_BOOL(Rem);
+	ELSIF Index = 10 THEN
+		B3 := UINT_TO_BOOL(Rem);
+	ELSIF Index = 11 THEN
+		B4 := UINT_TO_BOOL(Rem);
+	ELSIF Index = 12 THEN
+		B5 := UINT_TO_BOOL(Rem);
+	END_IF
+END_FOR]]></ST>
+    </Implementation>
+    <LineIds Name="fbU2B">
+      <LineId Id="78" Count="0" />
+      <LineId Id="82" Count="0" />
+      <LineId Id="11" Count="3" />
+      <LineId Id="36" Count="0" />
+      <LineId Id="15" Count="0" />
+      <LineId Id="38" Count="5" />
+      <LineId Id="60" Count="1" />
+      <LineId Id="37" Count="0" />
+      <LineId Id="9" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

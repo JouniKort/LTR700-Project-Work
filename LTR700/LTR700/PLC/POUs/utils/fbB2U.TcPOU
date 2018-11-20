@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.6">
+  <POU Name="fbB2U" Id="{338c8e1c-ab2f-4d0a-8f9e-7ddeb9ed459b}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK fbB2U
+VAR_INPUT
+	B1		:BOOL;
+	B2		:BOOL;
+	B3		:BOOL;
+	B4		:BOOL;
+END_VAR
+VAR_OUTPUT
+	OUT		:UINT;
+END_VAR
+VAR
+	B_Arr	:ARRAY [0 .. 3] OF BOOL;
+	D_val	:UINT;
+	Index	:INT;
+	Pow		:INT;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[//Turning 12 bits into an integer
+//First 8 bits are zeros, so the Pow starts at 8
+Pow := 8;
+D_Val := 0;
+B_Arr[0] := B1;
+B_Arr[1] := B2;
+B_Arr[2] := B3;
+B_Arr[3] := B4;
+FOR Index := 0 TO 3 DO
+	D_Val := LREAL_TO_UINT(D_Val + BOOL_TO_INT(B_Arr[Index])*EXPT(2,Pow));
+	Pow := Pow + 1;
+END_FOR
+OUT := D_Val;]]></ST>
+    </Implementation>
+    <LineIds Name="fbB2U">
+      <LineId Id="82" Count="1" />
+      <LineId Id="59" Count="0" />
+      <LineId Id="61" Count="4" />
+      <LineId Id="9" Count="0" />
+      <LineId Id="21" Count="0" />
+      <LineId Id="18" Count="1" />
+      <LineId Id="23" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

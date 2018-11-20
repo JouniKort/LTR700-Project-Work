@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.6">
+  <DUT Name="Trig" Id="{94db1109-83df-4aff-b06a-5e1941b988aa}">
+    <Declaration><![CDATA[TYPE Trig :
+STRUCT
+	A	:REAL;
+	B	:REAL;
+	C	:REAL;
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

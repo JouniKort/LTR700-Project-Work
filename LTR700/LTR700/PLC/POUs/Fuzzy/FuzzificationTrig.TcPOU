@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.6">
+  <POU Name="FuzzificationTrig" Id="{cbefb52d-a921-493b-ab80-5da2621eb495}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION FuzzificationTrig : REAL
+VAR_INPUT
+	x		:REAL;
+	trig	:Trig;
+END_VAR
+VAR
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[IF x <= trig.A THEN
+	FuzzificationTrig := 0;
+ELSIF trig.A < x AND x <= trig.B THEN
+	FuzzificationTrig := (x-trig.A)/(trig.B-trig.A);
+ELSIF trig.B < x AND x <= trig.C THEN
+	FuzzificationTrig := (trig.C-x)/(trig.C-trig.B);
+ELSIF trig.C < x THEN
+	FuzzificationTrig := 0; 
+END_IF]]></ST>
+    </Implementation>
+    <LineIds Name="FuzzificationTrig">
+      <LineId Id="7" Count="0" />
+      <LineId Id="11" Count="0" />
+      <LineId Id="13" Count="5" />
+      <LineId Id="12" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

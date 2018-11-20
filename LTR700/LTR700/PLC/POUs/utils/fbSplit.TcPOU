@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.6">
+  <POU Name="fbSplit" Id="{23601f14-690f-4566-ae73-23eb53cc305b}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK fbSplit
+VAR_INPUT
+	IN		:REAL;
+END_VAR
+VAR_OUTPUT
+	OUT1	:REAL;
+	OUT2	:REAL;
+END_VAR
+VAR
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[//Split one input into two outputs
+OUT1 := IN;
+OUT2 := IN;]]></ST>
+    </Implementation>
+    <LineIds Name="fbSplit">
+      <LineId Id="24" Count="0" />
+      <LineId Id="9" Count="0" />
+      <LineId Id="13" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

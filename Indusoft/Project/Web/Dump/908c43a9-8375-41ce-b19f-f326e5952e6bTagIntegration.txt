@@ -1,0 +1,2 @@
+[Message] File D:\_LTR700\LTR700\PLC\PLC.tpy read. [24.11.2017 11:46:14]
+[Message] File D:\_LTR700\LTR700\PLC\PLC.tpy read. [24.11.2017 11:58:16]

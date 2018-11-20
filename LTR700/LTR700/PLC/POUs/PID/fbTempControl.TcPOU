@@ -1,0 +1,61 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.6">
+  <POU Name="fbTempControl" Id="{3171648d-d5c5-414d-847d-6e8f313f223b}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK fbTempControl
+VAR_INPUT
+	Act			:REAL; //Celsius
+	Ref			:REAL; //Celsius
+	Kp			:REAL;
+	Ki			:REAL;
+	I_Cap		:INT; //Maximum value of the Integral portion
+END_VAR
+VAR_OUTPUT
+	OUT			:REAL;
+END_VAR
+VAR
+	Error 		:REAL;
+	P_Out		:REAL;
+	I_Out		:REAL;
+	PI_Out		:REAL;
+	AnalogMax	:INT	:= 27846;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[Error :=  Act - Ref;
+P_Out := Kp * Error;
+I_Out := Ki * Error + I_Out;
+
+IF I_Out > I_Cap THEN
+	I_Out := I_Cap;
+ELSIF I_Out < 0 THEN
+	I_Out := 0;
+END_IF
+
+PI_Out := P_Out + I_Out;
+
+//100 is the maximum sensor value
+IF PI_Out > 100 THEN
+	OUT := 100;
+ELSIF PI_Out < 0 THEN
+	OUT := 0;
+ELSE
+	OUT := PI_Out;
+END_IF]]></ST>
+    </Implementation>
+    <LineIds Name="fbTempControl">
+      <LineId Id="31" Count="0" />
+      <LineId Id="86" Count="0" />
+      <LineId Id="35" Count="0" />
+      <LineId Id="38" Count="2" />
+      <LineId Id="88" Count="1" />
+      <LineId Id="85" Count="0" />
+      <LineId Id="42" Count="1" />
+      <LineId Id="87" Count="0" />
+      <LineId Id="56" Count="2" />
+      <LineId Id="90" Count="1" />
+      <LineId Id="61" Count="0" />
+      <LineId Id="63" Count="0" />
+      <LineId Id="9" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

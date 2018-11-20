@@ -1,0 +1,59 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.6">
+  <POU Name="fbPIContoller" Id="{a39678a8-31c5-4437-b36b-d656a9cc9b60}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK fbPIContoller
+VAR_INPUT
+	On					:BOOL;
+END_VAR
+VAR
+	//PID-variables
+	P_Temperature		:REAL	:= 10.0;
+	P_Flow				:REAL	:= 2.0;
+	Ki_Temperature		:REAL 	:= 0.005;
+	Ki_Flow				:REAL 	:= 0.001;
+	I_CapTemperature	:INT	:= 80;
+	I_CapFlow			:INT	:= 80;
+
+	//FBs
+
+	fbFlowScale			:fbScale;
+	fbFlowP2AScale		:fbScale;
+	
+	fbFlowController	:fbFlowControl;
+	fbTempController	:fbTempControl;
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[//If controller is switched off, turn the fan off and reset the controllers
+IF NOT On THEN
+	IO.AO0_Fan := 0;
+	RETURN;
+END_IF
+
+//Current flowrate
+fbFlowScale(IN := IO.AI1_Pres, Scale_L := 0, Scale_H := 100);
+
+fbTempController(
+	Act := Temperatures.T_Act,
+	Ref := Temperatures.T_Ref,
+	Kp := P_Temperature,
+	Ki := Ki_Temperature,
+	I_Cap := I_CapTemperature);
+
+fbFlowController(
+	Act := fbFlowScale.OUT,
+	Ref := fbTempController.OUT,
+	Kp := P_Flow,
+	Ki := Ki_Flow,
+	I_Cap := I_CapFlow);
+
+//Percentage to analog value (0-100% -> 0-27468)
+fbFlowP2AScale(IN := fbFlowController.OUT, Scale_L := 0, Scale_H := 100, bType := FALSE);
+IO.AO0_Fan := REAL_TO_INT(fbFlowP2AScale.OUT);]]></ST>
+    </Implementation>
+    <LineIds Name="fbPIContoller">
+      <LineId Id="10" Count="2" />
+      <LineId Id="15" Count="21" />
+      <LineId Id="9" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

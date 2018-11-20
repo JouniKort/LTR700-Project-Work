@@ -1,0 +1,57 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.6">
+  <POU Name="fbFlowControl" Id="{b0f8c6d3-8c25-4aa9-b16d-b7b1e14b4152}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK fbFlowControl
+VAR_INPUT
+	Act			:REAL; //0 - 27846
+	Ref			:REAL; //0 - 27846
+	Kp			:REAL;
+	Ki			:REAL;
+	I_Cap		:INT; //Maximum value of the Integral portion
+END_VAR
+VAR_OUTPUT
+	OUT			:INT;
+END_VAR
+VAR
+	Error 		:REAL;
+	P_Out		:REAL;
+	I_Out		:REAL;
+	PI_Out		:REAL;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[Error :=  Ref - Act;
+P_Out := Kp * Error;
+I_Out := Ki * Error + I_Out;
+
+IF I_Out > I_Cap THEN
+	I_Out := I_Cap;
+END_IF
+
+PI_Out := P_Out + I_Out;
+
+IF PI_Out > 100 THEN
+	OUT := 100;
+ELSIF PI_Out < 5 THEN
+	//Small amount of flow to make temperature rise more evenly
+	//inside the tube
+	OUT := 5;
+ELSE
+	//IO requires INT => conversion from real to int
+	OUT := REAL_TO_INT(PI_Out);
+END_IF]]></ST>
+    </Implementation>
+    <LineIds Name="fbFlowControl">
+      <LineId Id="79" Count="0" />
+      <LineId Id="117" Count="4" />
+      <LineId Id="124" Count="1" />
+      <LineId Id="78" Count="0" />
+      <LineId Id="33" Count="3" />
+      <LineId Id="92" Count="1" />
+      <LineId Id="37" Count="1" />
+      <LineId Id="58" Count="0" />
+      <LineId Id="39" Count="0" />
+      <LineId Id="9" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

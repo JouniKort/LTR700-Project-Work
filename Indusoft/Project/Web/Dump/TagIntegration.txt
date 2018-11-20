@@ -1,0 +1,51 @@
+[Exception] CacheFile Load [24.11.2017 10:39:07]
+    System.IO.FileNotFoundException: Could not find file 'D:\_LTR700\Project\Database\DEVTagIntegrationCache.xmlti'.
+File name: 'D:\_LTR700\Project\Database\DEVTagIntegrationCache.xmlti'
+   at System.IO.__Error.WinIOError(Int32 errorCode, String maybeFullPath)
+   at System.IO.FileStream.Init(String path, FileMode mode, FileAccess access, Int32 rights, Boolean useRights, FileShare share, Int32 bufferSize, FileOptions options, SECURITY_ATTRIBUTES secAttrs, String msgPath, Boolean bFromProxy)
+   at System.IO.FileStream..ctor(String path, FileMode mode, FileAccess access, FileShare share)
+   at TagSourceLibrary.CacheFile.()
+[Message] File D:\_LTR700\LTR700\PLC\PLC.tpy read. [24.11.2017 10:39:07]
+[Exception] AddImportedTag [24.11.2017 10:46:58]
+    System.ArgumentException: An item with the same key has already been added.
+   at System.ThrowHelper.ThrowArgumentException(ExceptionResource resource)
+   at System.Collections.Generic.Dictionary`2.Insert(TKey key, TValue value, Boolean add)
+   at ..AddImportedTag(String , String , String , Int32 , Int32 , String , String )
+[Message] File D:\_LTR700\LTR700\PLC\PLC.tpy read. [24.11.2017 10:52:01]
+[Message] File D:\_LTR700\LTR700\PLC\PLC.tpy read. [24.11.2017 11:00:03]
+[Message] File D:\_LTR700\LTR700\PLC\PLC.tpy read. [1.12.2017 10:32:08]
+[Message] File D:\_LTR700\LTR700\PLC\PLC.tpy read. [1.12.2017 10:42:11]
+[Message] File D:\_LTR700\LTR700\PLC\PLC.tpy read. [1.12.2017 10:43:11]
+[Message] File D:\_LTR700\LTR700\PLC\PLC.tpy read. [1.12.2017 11:05:53]
+[Message] File D:\_LTR700\LTR700\PLC\PLC.tpy read. [1.12.2017 11:27:58]
+[Message] File D:\_LTR700\LTR700\PLC\PLC.tpy read. [1.12.2017 11:28:59]
+[Message] File D:\_LTR700\LTR700\PLC\PLC.tpy read. [1.12.2017 11:46:03]
+[Message] File D:\_LTR700\LTR700\PLC\PLC.tpy read. [1.12.2017 11:47:03]
+[Message] File D:\_LTR700\LTR700\PLC\PLC.tpy read. [1.12.2017 11:52:04]
+[Message] File D:\_LTR700\LTR700\PLC\PLC.tpy read. [1.12.2017 11:54:05]
+[Message] File D:\_LTR700\LTR700\PLC\PLC.tpy read. [1.12.2017 11:55:06]
+[Message] File D:\_LTR700\LTR700\PLC\PLC.tpy read. [1.12.2017 12:14:10]
+[Message] File D:\_LTR700\LTR700\PLC\PLC.tpy read. [1.12.2017 12:15:10]
+[Message] File D:\_LTR700\LTR700\PLC\PLC.tpy read. [1.12.2017 12:25:13]
+[Message] File D:\_LTR700\LTR700\PLC\PLC.tpy read. [1.12.2017 12:27:14]
+[Message] File D:\_LTR700\LTR700\PLC\PLC.tpy read. [1.12.2017 12:34:15]
+[Message] File D:\_LTR700\LTR700\PLC\PLC.tpy read. [1.12.2017 12:37:16]
+[Message] File D:\_LTR700\LTR700\PLC\PLC.tpy read. [1.12.2017 12:39:17]
+[Message] File D:\_LTR700\LTR700\PLC\PLC.tpy read. [1.12.2017 12:45:18]
+[Message] File D:\_LTR700\LTR700\PLC\PLC.tpy read. [1.12.2017 12:51:20]
+[Message] File D:\_LTR700\LTR700\PLC\PLC.tpy read. [1.12.2017 12:53:21]
+[Message] File D:\_LTR700\LTR700\PLC\PLC.tpy read. [8.12.2017 11:04:30]
+[Message] File D:\_LTR700\LTR700\PLC\PLC.tpy read. [8.12.2017 11:08:31]
+[Message] File D:\_LTR700\LTR700\PLC\PLC.tpy read. [8.12.2017 11:11:32]
+[Message] File D:\_LTR700\LTR700\PLC\PLC.tpy read. [8.12.2017 11:20:34]
+[Message] File D:\_LTR700\LTR700\PLC\PLC.tpy read. [8.12.2017 11:23:34]
+[Message] File D:\_LTR700\LTR700\PLC\PLC.tpy read. [15.12.2017 10:23:06]
+[Message] File D:\_LTR700\LTR700\PLC\PLC.tpy read. [15.12.2017 10:30:14]
+[Message] File D:\_LTR700\LTR700\PLC\PLC.tpy read. [15.12.2017 10:34:21]
+[Message] File D:\_LTR700\LTR700\PLC\PLC.tpy read. [15.12.2017 10:36:24]
+[Message] File D:\_LTR700\LTR700\PLC\PLC.tpy read. [15.12.2017 10:39:30]
+[Message] File D:\_LTR700\LTR700\PLC\PLC.tpy read. [15.12.2017 10:41:33]
+[Message] File D:\_LTR700\LTR700\PLC\PLC.tpy read. [15.12.2017 11:00:01]
+[Message] File D:\_LTR700\LTR700\PLC\PLC.tpy read. [15.12.2017 11:13:21]
+[Message] File D:\_LTR700\LTR700\PLC\PLC.tpy read. [15.12.2017 11:41:04]
+[Message] File D:\_LTR700\LTR700\PLC\PLC.tpy read. [15.12.2017 11:46:12]

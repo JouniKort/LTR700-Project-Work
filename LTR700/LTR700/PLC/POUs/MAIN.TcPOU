@@ -1,0 +1,68 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.6">
+  <POU Name="MAIN" Id="{178d1884-1f61-4494-864d-b432efcec7a1}" SpecialFunc="None">
+    <Declaration><![CDATA[PROGRAM MAIN
+VAR
+	HeaterRatio			:REAL	:= 20;
+	FanRatio			:REAL;
+	Region				:REAL	:= 2.5; //Allowed error +- for the steady-state
+	
+	fbTempScale			:fbScale;
+	fbFControl			:fbFuzzyController;
+	fbPIControl			:fbPIContoller;
+	
+	Timer				:TON;
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[//Handle digital I/O
+SLL(SteadyStateRegion := Region);
+
+//HeaterRatio can be cnaged from the GUI
+IO.AO1_Heater := REAL_TO_INT(27468 * HeaterRatio/100);
+//Used in the GUI
+FanRatio := INT_TO_REAL(IO.AO0_Fan)/INT_TO_REAL(27468)*100;
+
+
+//Run the controller
+//Controller can be switched between PI and Fuzzy
+IF SLL.ControllerSwitch THEN
+	//Longer samplingtime allows error to accumulate
+	//10ms had too small changes between samples
+	Timer(IN := NOT Timer.Q, PT := T#0.1S);
+	IF Timer.Q THEN
+		fbFControl(On := SLL.ControllerOn);
+	END_IF
+ELSE
+	fbPIControl(On := SLL.ControllerOn);
+END_IF
+
+//Current temperature as celsius
+fbTempScale(IN := IO.AI0_Temp, Scale_L := 20, Scale_H := 120);
+Temperatures.T_Act := fbTempScale.OUT;]]></ST>
+    </Implementation>
+    <LineIds Name="MAIN">
+      <LineId Id="233" Count="0" />
+      <LineId Id="138" Count="0" />
+      <LineId Id="202" Count="0" />
+      <LineId Id="158" Count="0" />
+      <LineId Id="111" Count="0" />
+      <LineId Id="230" Count="0" />
+      <LineId Id="201" Count="0" />
+      <LineId Id="232" Count="0" />
+      <LineId Id="231" Count="0" />
+      <LineId Id="198" Count="0" />
+      <LineId Id="234" Count="0" />
+      <LineId Id="194" Count="0" />
+      <LineId Id="217" Count="1" />
+      <LineId Id="211" Count="0" />
+      <LineId Id="215" Count="0" />
+      <LineId Id="185" Count="0" />
+      <LineId Id="216" Count="0" />
+      <LineId Id="195" Count="2" />
+      <LineId Id="200" Count="0" />
+      <LineId Id="199" Count="0" />
+      <LineId Id="165" Count="0" />
+      <LineId Id="164" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

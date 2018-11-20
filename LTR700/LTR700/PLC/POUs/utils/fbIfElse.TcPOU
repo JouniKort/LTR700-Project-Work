@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.6">
+  <POU Name="fbIfElse" Id="{8994fbc7-7e06-44d7-b2cc-1f65de126893}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK fbIfElse
+VAR_INPUT
+	BVal		:BOOL;
+	IFVal		:REAL;
+	ELSEVal		:REAL;
+END_VAR
+VAR_OUTPUT
+	OUT			:REAL;
+END_VAR
+VAR
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[IF BVal THEN
+	OUT := IFVal;
+ELSE
+	OUT := ELSEVal;
+END_IF]]></ST>
+    </Implementation>
+    <LineIds Name="fbIfElse">
+      <LineId Id="9" Count="0" />
+      <LineId Id="14" Count="0" />
+      <LineId Id="16" Count="1" />
+      <LineId Id="15" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

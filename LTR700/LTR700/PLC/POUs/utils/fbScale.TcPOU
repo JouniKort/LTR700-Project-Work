@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.6">
+  <POU Name="fbScale" Id="{97b7cf79-b1cc-4d82-9cac-ffbb77d4d893}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK fbScale
+VAR_INPUT
+	IN		:REAL;
+	Scale_L	:REAL;
+	Scale_H	:REAL;
+	bType	:BOOL	:=TRUE;	//TRUE = analog val to real, FALSE = real to analog
+END_VAR
+VAR_OUTPUT
+	OUT		:REAL;
+END_VAR
+VAR
+	AnalogMax :REAL := 27648;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[IF bType THEN
+	OUT := IN / AnalogMax * (Scale_H - Scale_L) + Scale_L;
+ELSE
+	OUT := (AnalogMax * (IN - Scale_L)) / (Scale_H - Scale_L);
+END_IF
+]]></ST>
+    </Implementation>
+    <LineIds Name="fbScale">
+      <LineId Id="23" Count="1" />
+      <LineId Id="26" Count="2" />
+      <LineId Id="9" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

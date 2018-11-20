@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.6">
+  <GVL Name="IO" Id="{e69515c8-482f-48f0-8347-0b0acb67fcae}">
+    <Declaration><![CDATA[{attribute 'qualified_only'}
+VAR_GLOBAL
+	AI0_Temp 	AT %I*: INT;	//Temperature
+	AI1_Pres 	AT %I*:	INT;	//Pressure
+	AO0_Fan 	AT %Q*: INT;	//Fan
+	AO1_Heater	AT %Q*:	INT;	//Heater
+	DI_SLL		AT %I*: UINT;	//Digital input
+	DO_SLL		AT %Q*: UINT;	//Digital output	
+END_VAR]]></Declaration>
+  </GVL>
+</TcPlcObject>

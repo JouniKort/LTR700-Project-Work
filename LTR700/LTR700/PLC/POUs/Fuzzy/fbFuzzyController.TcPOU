@@ -1,0 +1,161 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.6">
+  <POU Name="fbFuzzyController" Id="{df0eaf43-e58c-4ed9-b127-eb38763618f3}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK fbFuzzyController
+VAR_INPUT
+	On					:BOOL;
+END_VAR
+VAR_OUTPUT
+END_VAR
+VAR
+	HOT, COLD						:Trapez;
+	WARM, COOL						:Trig;
+	
+	DECREASING, INCREASING			:Trapez;
+	SLOWDOWN, SPEEDUP				:Trig;
+	
+	Temperature						:REAL;
+	Temp_prev						:REAL := 0;
+	Error							:REAL := 0;
+	
+	//Degree of membership
+	Hot_h, Warm_h, Cool_h, Cold_h	:REAL;
+	Decreasing_h, Increasing_h		:REAL;
+	
+	Rule, Rule1, Rule2, Rule3, Rule4, Rule5, Rule6 :REAL;
+	
+	u	:REAL;
+	Fan_R	:REAL;
+	Scale	:REAL := 0.1;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[//If controller is switched off, turn the fan off and reset the controllers
+IF NOT On THEN
+	IO.AO0_Fan := 0;
+	RETURN;
+END_IF
+
+//Temperature
+HOT.A := -100; HOT.B := -100; HOT.C := -5; HOT.D := -0.5;
+WARM.A := -5; WARM.B := -2.5; WARM.C := 0;
+COOL.A := 0; COOL.B := 2.5; COOL.C := 5;
+COLD.A := 0.5; COLD.B := 5; COLD.C := 100; COLD.D := 100;
+
+//Error
+DECREASING.A := -0.1; DECREASING.B := -0.03; DECREASING.C := -0.0006; DECREASING.D := 0;
+INCREASING.A := 0; INCREASING.B := 0.0006; INCREASING.C := 0.03; INCREASING.D := 0.1;
+
+//Control signal
+SLOWDOWN.A := 1; SLOWDOWN.B := -1; SLOWDOWN.C := -1;
+SPEEDUP.A := -1; SPEEDUP.B := 1; SPEEDUP.C := 1;
+
+//Controller inputs
+Temperature := Temperatures.T_Ref - Temperatures.T_Act;
+Error := Temp_prev - Temperature;
+Temp_prev := Temperature;
+
+//Fuzzification
+Hot_h := FuzzificationTrapez(Temperature, HOT);
+Cold_h := FuzzificationTrapez(Temperature, COLD);
+Warm_h := FuzzificationTrig(Temperature, WARM);
+Cool_h := FuzzificationTrig(Temperature, Cool);
+Decreasing_h := FuzzificationTrapez(Error, DECREASING);
+Increasing_h := FuzzificationTrapez(Error, INCREASING);
+
+//Rules
+//IF Temperature IS Hot
+IF Hot_h > 0 THEN
+	Rule1 := Hot_h;
+END_IF
+//IF Temperature IS Warm AND Error IS Increasing
+IF Warm_h > 0 AND Increasing_h > 0 THEN
+	Rule2 := MIN(Warm_h,Increasing_h);
+END_IF
+//IF Temperature IS Warm AND Error IS Decreasing
+IF Warm_h > 0 AND Decreasing_h > 0 THEN
+	Rule3 := MIN(Warm_h,Decreasing_h);
+END_IF
+//IF Temperature IS Cool AND Error IS Increasing
+IF Cool_h > 0 AND Increasing_h > 0 THEN
+	Rule4 := MIN(Cool_h,Increasing_h);
+END_IF
+//IF Temperature IS Cool AND Error IS Decreasing
+IF Cool_h > 0 AND Decreasing_h > 0 THEN
+	Rule5 := MIN(Cool_h,Decreasing_h);
+END_IF
+//IF Temperature IS Cold
+IF Cold_h > 0 THEN
+	Rule6 := Cold_h;
+END_IF
+
+//Rule with the max value is the most significant
+Rule := MAX(Rule1,Rule2,Rule3,Rule4,Rule5,Rule6);
+
+//Defuzzification using Mean of Max.
+//Boundaries with alpha-cut at max rule's degree
+IF Rule = Rule1 OR Rule = Rule2 OR Rule = Rule4 THEN
+	u := ((SPEEDUP.B-SPEEDUP.A)*Rule+SPEEDUP.A + (-(SPEEDUP.C-SPEEDUP.B)*Rule+SPEEDUP.C))/2;
+ELSIF Rule = Rule3 OR Rule = Rule5 OR Rule = Rule6 THEN
+	u := ((SLOWDOWN.B-SLOWDOWN.A)*Rule+SLOWDOWN.A + (-(SLOWDOWN.C-SLOWDOWN.B)*Rule+SLOWDOWN.C))/2;
+END_IF
+//Resetting values to zero for the next execution
+Rule1 := Rule2 := Rule3 := Rule4 := Rule5 := Rule6 := 0;
+
+//Calculating the new fan usage 0-100
+Fan_R := Fan_R + u * Scale;
+IF Fan_R > 100 THEN
+	Fan_R := 100;
+ELSIF FAN_R < 0 THEN
+	Fan_R := 0;
+END_IF
+
+IO.AO0_Fan := REAL_TO_INT(27648*Fan_R/100);]]></ST>
+    </Implementation>
+    <LineIds Name="fbFuzzyController">
+      <LineId Id="203" Count="2" />
+      <LineId Id="208" Count="1" />
+      <LineId Id="281" Count="0" />
+      <LineId Id="29" Count="0" />
+      <LineId Id="9" Count="0" />
+      <LineId Id="17" Count="2" />
+      <LineId Id="30" Count="0" />
+      <LineId Id="21" Count="0" />
+      <LineId Id="20" Count="0" />
+      <LineId Id="22" Count="0" />
+      <LineId Id="31" Count="0" />
+      <LineId Id="27" Count="0" />
+      <LineId Id="26" Count="0" />
+      <LineId Id="28" Count="0" />
+      <LineId Id="280" Count="0" />
+      <LineId Id="51" Count="1" />
+      <LineId Id="75" Count="0" />
+      <LineId Id="71" Count="0" />
+      <LineId Id="247" Count="0" />
+      <LineId Id="50" Count="0" />
+      <LineId Id="49" Count="0" />
+      <LineId Id="68" Count="2" />
+      <LineId Id="73" Count="0" />
+      <LineId Id="82" Count="0" />
+      <LineId Id="103" Count="0" />
+      <LineId Id="145" Count="23" />
+      <LineId Id="99" Count="0" />
+      <LineId Id="276" Count="0" />
+      <LineId Id="109" Count="0" />
+      <LineId Id="169" Count="0" />
+      <LineId Id="279" Count="0" />
+      <LineId Id="277" Count="1" />
+      <LineId Id="170" Count="4" />
+      <LineId Id="309" Count="0" />
+      <LineId Id="121" Count="0" />
+      <LineId Id="310" Count="0" />
+      <LineId Id="120" Count="0" />
+      <LineId Id="211" Count="1" />
+      <LineId Id="215" Count="0" />
+      <LineId Id="217" Count="1" />
+      <LineId Id="216" Count="0" />
+      <LineId Id="275" Count="0" />
+      <LineId Id="119" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>
